@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { X } from "lucide-react"
 import { Bell } from "lucide-react"
+import Navbar from "@/components/Navbar"
 
 
 interface QuestionFormData {
@@ -75,21 +76,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between max-w-6xl mx-auto">
-          <div className="text-xl font-semibold text-gray-900">StackIt</div>
-          <div className="text-lg font-medium text-gray-700">Home</div>
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5" />
-            </Button>
-            <Avatar className="h-8 w-8">
-              <AvatarImage src="/placeholder.svg?height=32&width=32" />
-              <AvatarFallback className="bg-purple-100 text-purple-700">U</AvatarFallback>
-            </Avatar>
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
       <main className="max-w-4xl mx-auto p-6">
 

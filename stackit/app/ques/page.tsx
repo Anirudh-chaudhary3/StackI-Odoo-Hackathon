@@ -3,13 +3,12 @@ import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Bell, Home, Search, Menu } from "lucide-react"
 import { VoteButtons } from "@/components/vote-buttons"
 import RichTextEditor from "@/components/RichTextEditor"
 import FormattedContent from "@/components/FormattedContent"
 import { LoginPopup } from "@/components/login-popup"
 import type { Answer, QuestionDetail, User } from "@/types/question-details"
+import Navbar from "@/components/Navbar"
 
 const mockQuestion: QuestionDetail = {
   id: "1",
@@ -119,38 +118,7 @@ export default function QuestionDetailPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <div className="flex items-center justify-between max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center gap-8">
-            <div className="text-2xl font-bold text-blue-600">StackIt</div>
-            <div className="hidden md:flex items-center gap-6">
-              <Button variant="ghost" className="text-gray-600 hover:text-blue-600 hover:bg-blue-50">
-                <Home className="h-4 w-4 mr-2" />
-                Home
-              </Button>
-              <Button variant="ghost" className="text-gray-600 hover:text-blue-600 hover:bg-blue-50">
-                <Search className="h-4 w-4 mr-2" />
-                Search
-              </Button>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="relative text-gray-600 hover:text-blue-600 hover:bg-blue-50">
-              <Bell className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></span>
-            </Button>
-            <Avatar className="h-8 w-8 border-2 border-gray-200">
-              <AvatarImage src="/placeholder.svg?height=32&width=32" />
-              <AvatarFallback className="bg-blue-100 text-blue-700 font-medium">
-                {user.isLoggedIn ? user.name.charAt(0).toUpperCase() : "U"}
-              </AvatarFallback>
-            </Avatar>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
       {/* Main Content */}
       <main className="max-w-6xl mx-auto p-6">
