@@ -153,7 +153,7 @@ export default function QuestionDetailPage() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto p-6">
+      <main className="max-w-6xl mx-auto p-6">
         {/* Breadcrumbs */}
         <nav className="mb-8">
           <div className="flex items-center gap-2 text-sm text-gray-600">
