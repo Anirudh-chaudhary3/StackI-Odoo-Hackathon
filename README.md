@@ -1,4 +1,3 @@
-# StackI-Odoo-Hackathon
 # StackIt-Odoo-Hackathon
 
 ## Team : THE QUANTUM CODERS
