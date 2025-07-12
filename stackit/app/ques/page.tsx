@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Bell } from "lucide-react"
+import { Bell, Home, Search, Menu } from "lucide-react"
 import { VoteButtons } from "@/components/vote-buttons"
 import RichTextEditor from "@/components/RichTextEditor"
+import FormattedContent from "@/components/FormattedContent"
 import { LoginPopup } from "@/components/login-popup"
 import type { Answer, QuestionDetail, User } from "@/types/question-details"
 
@@ -15,7 +16,7 @@ const mockQuestion: QuestionDetail = {
   title: "How to join 2 columns in a data set to make a separate column in SQL",
   description:
     "I do not know the code for it as I am a beginner. As an example what I need to do is like there is a column 1 containing First name and column 2 consists of last name I want a column to combine",
-  tags: ["Tags", "Tags"],
+  tags: ["sql", "database", "data-manipulation"],
   author: "User Name",
   createdAt: "5 ans",
   views: 1234,
@@ -25,7 +26,11 @@ const mockAnswers: Answer[] = [
   {
     id: "1",
     title: "Answer 1",
-    content: ["The || Operator.", "The + Operator.", "The CONCAT Function."],
+    content: [
+      '{"blocks":[{"key":"a1b2c","text":"The || Operator.","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":4,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
+      '{"blocks":[{"key":"d3e4f","text":"The + Operator.","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":4,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}',
+      '{"blocks":[{"key":"g5h6i","text":"The CONCAT Function.","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":6,"style":"BOLD"},{"offset":7,"length":8,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}'
+    ],
     votes: 9,
     userVote: null,
     author: "Expert User",
@@ -34,7 +39,9 @@ const mockAnswers: Answer[] = [
   {
     id: "2",
     title: "Answer 2",
-    content: ["Details"],
+    content: [
+      '{"blocks":[{"key":"j7k8l","text":"Here is a detailed explanation with formatting:","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"m9n0o","text":"• First point","type":"unordered-list-item","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"p1q2r","text":"• Second point with bold text","type":"unordered-list-item","depth":0,"inlineStyleRanges":[{"offset":18,"length":9,"style":"BOLD"}],"entityRanges":[],"data":{}},{"key":"s3t4u","text":"• Third point with italic text","type":"unordered-list-item","depth":0,"inlineStyleRanges":[{"offset":18,"length":10,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}'
+    ],
     votes: 0,
     userVote: null,
     author: "Another User",
@@ -45,6 +52,7 @@ const mockAnswers: Answer[] = [
 export default function QuestionDetailPage() {
   const [answers, setAnswers] = useState<Answer[]>(mockAnswers)
   const [newAnswer, setNewAnswer] = useState("")
+  const [displayMode, setDisplayMode] = useState<'plain' | 'html'>('plain')
   const [user, setUser] = useState<User>({
     id: "1",
     name: "Current User",
@@ -97,7 +105,7 @@ export default function QuestionDetailPage() {
     const newAnswerObj: Answer = {
       id: Date.now().toString(),
       title: `Answer ${answers.length + 1}`,
-      content: [newAnswer],
+      content: [newAnswer], // This will now be the formatted content from RichTextEditor
       votes: 0,
       userVote: null,
       author: user.name,
@@ -109,85 +117,194 @@ export default function QuestionDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="border-b border-gray-700 px-6 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div className="text-2xl font-bold">StackIt</div>
-          <div className="text-lg font-medium">Home</div>
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <div className="flex items-center justify-between max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center gap-8">
+            <div className="text-2xl font-bold text-blue-600">StackIt</div>
+            <div className="hidden md:flex items-center gap-6">
+              <Button variant="ghost" className="text-gray-600 hover:text-blue-600 hover:bg-blue-50">
+                <Home className="h-4 w-4 mr-2" />
+                Home
+              </Button>
+              <Button variant="ghost" className="text-gray-600 hover:text-blue-600 hover:bg-blue-50">
+                <Search className="h-4 w-4 mr-2" />
+                Search
+              </Button>
+            </div>
+          </div>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="relative text-gray-300 hover:text-white">
+            <Button variant="ghost" size="icon" className="relative text-gray-600 hover:text-blue-600 hover:bg-blue-50">
               <Bell className="h-5 w-5" />
+              <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></span>
             </Button>
-            <Avatar className="h-8 w-8">
+            <Avatar className="h-8 w-8 border-2 border-gray-200">
               <AvatarImage src="/placeholder.svg?height=32&width=32" />
-              <AvatarFallback className="bg-purple-100 text-purple-700">
+              <AvatarFallback className="bg-blue-100 text-blue-700 font-medium">
                 {user.isLoggedIn ? user.name.charAt(0).toUpperCase() : "U"}
               </AvatarFallback>
             </Avatar>
+            <Button variant="ghost" size="icon" className="md:hidden">
+              <Menu className="h-5 w-5" />
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-6xl mx-auto p-6">
-        <div className="mb-6">
-          <h1 className="text-xl text-gray-300 mb-4">Screen 3</h1>
-
-          {/* Breadcrumbs */}
-          <div className="text-sm text-blue-400 mb-6">Question {">"} How to join 2.....</div>
-        </div>
+      <main className="max-w-4xl mx-auto p-6">
+        {/* Breadcrumbs */}
+        <nav className="mb-8">
+          <div className="flex items-center gap-2 text-sm text-gray-600">
+            <span className="hover:text-blue-600 cursor-pointer">Questions</span>
+            <span className="text-gray-400">/</span>
+            <span className="text-gray-900 font-medium truncate">How to join 2 columns in a data set...</span>
+          </div>
+        </nav>
 
         {/* Question Section */}
-        <Card className="bg-gray-800 border-gray-700 mb-8">
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-semibold text-white mb-4">{mockQuestion.title}</h2>
+        <Card className="bg-white border border-gray-200 shadow-sm mb-8">
+          <CardContent className="p-8">
+            <div className="flex items-start gap-6">
+              {/* Voting for Question */}
+              <div className="flex flex-col items-center gap-2 pt-2">
+                <VoteButtons
+                  votes={42}
+                  userVote={null}
+                  onVote={() => {}}
+                  disabled={!user.isLoggedIn}
+                />
+              </div>
 
-            <div className="flex gap-2 mb-4">
-              {mockQuestion.tags.map((tag, index) => (
-                <Badge key={index} variant="outline" className="border-gray-600 text-gray-300">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
+              {/* Question Content */}
+              <div className="flex-1">
+                <h1 className="text-3xl font-bold text-gray-900 mb-4 leading-tight">
+                  {mockQuestion.title}
+                </h1>
 
-            <p className="text-gray-300 leading-relaxed mb-4">{mockQuestion.description}</p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {mockQuestion.tags.map((tag, index) => (
+                    <Badge 
+                      key={index} 
+                      variant="secondary" 
+                      className="bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 px-3 py-1"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
 
-            <div className="text-sm text-gray-400">
-              Asked by {mockQuestion.author} • {mockQuestion.createdAt}
+                <div className="prose prose-gray max-w-none mb-6">
+                  <p className="text-gray-700 leading-relaxed text-lg">
+                    {mockQuestion.description}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <span>Asked by <span className="font-medium text-gray-900">{mockQuestion.author}</span></span>
+                    <span>•</span>
+                    <span>{mockQuestion.createdAt}</span>
+                    <span>•</span>
+                    <span>{mockQuestion.views.toLocaleString()} views</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" className="text-gray-600 border-gray-300 hover:bg-gray-50">
+                      Share
+                    </Button>
+                    <Button variant="outline" size="sm" className="text-gray-600 border-gray-300 hover:bg-gray-50">
+                      Edit
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
 
         {/* Answers Section */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-6">Answers</h3>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">
+              {answers.length} Answer{answers.length !== 1 ? 's' : ''}
+            </h2>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Display mode:</span>
+              <Button
+                variant={displayMode === 'plain' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setDisplayMode('plain')}
+                className="text-xs bg-blue-600 hover:bg-blue-700"
+              >
+                Plain Text
+              </Button>
+              <Button
+                variant={displayMode === 'html' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setDisplayMode('html')}
+                className="text-xs bg-blue-600 hover:bg-blue-700"
+              >
+                Formatted
+              </Button>
+            </div>
+          </div>
 
           <div className="space-y-6">
-            {answers.map((answer) => (
-              <Card key={answer.id} className="bg-gray-800 border-gray-700">
+            {answers.map((answer, index) => (
+              <Card key={answer.id} className="bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
                 <CardContent className="p-6">
-                  <div className="flex gap-4">
+                  <div className="flex gap-6">
                     {/* Voting Section */}
-                    <VoteButtons
-                      votes={answer.votes}
-                      userVote={answer.userVote}
-                      onVote={(voteType) => handleVote(answer.id, voteType)}
-                      disabled={!user.isLoggedIn}
-                    />
+                    <div className="flex flex-col items-center gap-2 pt-2">
+                      <VoteButtons
+                        votes={answer.votes}
+                        userVote={answer.userVote}
+                        onVote={(voteType) => handleVote(answer.id, voteType)}
+                        disabled={!user.isLoggedIn}
+                      />
+                    </div>
 
                     {/* Answer Content */}
                     <div className="flex-1">
-                      <h4 className="text-lg font-medium text-white mb-3">{answer.title}</h4>
-                      <div className="space-y-2 mb-4">
-                        {answer.content.map((line, index) => (
-                          <p key={index} className="text-gray-300">
-                            {line}
-                          </p>
+                      <div className="flex items-center gap-2 mb-3">
+                        <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                          Answer {index + 1}
+                        </Badge>
+                        {answer.votes > 5 && (
+                          <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+                            Popular
+                          </Badge>
+                        )}
+                      </div>
+                      
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">{answer.title}</h3>
+                      
+                      <div className="prose prose-gray max-w-none mb-6">
+                        {answer.content.map((line, contentIndex) => (
+                          <FormattedContent 
+                            key={contentIndex} 
+                            content={line} 
+                            mode={displayMode}
+                            className="text-gray-700"
+                          />
                         ))}
                       </div>
-                      <div className="text-sm text-gray-400">
-                        Answered by {answer.author} • {answer.createdAt}
+                      
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div className="flex items-center gap-4 text-sm text-gray-600">
+                          <span>Answered by <span className="font-medium text-gray-900">{answer.author}</span></span>
+                          <span>•</span>
+                          <span>{answer.createdAt}</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button variant="ghost" size="sm" className="text-gray-600 hover:text-blue-600 hover:bg-blue-50">
+                            Comment
+                          </Button>
+                          <Button variant="ghost" size="sm" className="text-gray-600 hover:text-blue-600 hover:bg-blue-50">
+                            Share
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -198,18 +315,35 @@ export default function QuestionDetailPage() {
         </div>
 
         {/* Submit Answer Section */}
-        <Card className="bg-gray-800 border-gray-700">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Submit Your Answer</h3>
+        <Card className="bg-white border border-gray-200 shadow-sm">
+          <CardContent className="p-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Your Answer</h3>
+            <p className="text-gray-600 mb-6">
+              Share your knowledge and help others by providing a detailed answer to this question.
+            </p>
 
             <form onSubmit={handleSubmitAnswer}>
-                             <div className="mb-6">
-                 <RichTextEditor onChange={(value) => setNewAnswer(value)} placeholder="Write your answer here..." />
-               </div>
+              <div className="mb-6">
+                <RichTextEditor 
+                  onChange={(value) => setNewAnswer(value)} 
+                  placeholder="Write your answer here... Use the formatting tools to make your answer clear and well-structured." 
+                />
+              </div>
 
-              <div className="flex justify-end">
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2">
-                  Submit
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-gray-600">
+                  {!user.isLoggedIn && (
+                    <span className="text-orange-600 font-medium">
+                      Please log in to submit an answer
+                    </span>
+                  )}
+                </div>
+                <Button 
+                  type="submit" 
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 font-medium"
+                  disabled={!user.isLoggedIn}
+                >
+                  Post Answer
                 </Button>
               </div>
             </form>
