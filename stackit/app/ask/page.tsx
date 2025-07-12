@@ -72,10 +72,6 @@ export default function Home() {
       </header>
 
       <main className="max-w-4xl mx-auto p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-2">Screen 2</h1>
-          <h2 className="text-xl text-gray-700">Ask Question</h2>
-        </div>
 
         <Card className="border-2 border-gray-300">
           <CardContent className="p-8">

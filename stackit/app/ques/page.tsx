@@ -116,7 +116,9 @@ export default function QuestionDetailPage() {
           <div className="text-2xl font-bold">StackIt</div>
           <div className="text-lg font-medium">Home</div>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="relative text-gray-300 hover:text-white">
+            <Button variant="ghost" size="icon" className="
+            
+            relative text-gray-300 hover:text-white">
               <Bell className="h-5 w-5" />
             </Button>
             <Avatar className="h-8 w-8">
@@ -131,12 +133,6 @@ export default function QuestionDetailPage() {
 
       {/* Main Content */}
       <main className="max-w-6xl mx-auto p-6">
-        <div className="mb-6">
-          <h1 className="text-xl text-gray-300 mb-4">Screen 3</h1>
-
-          {/* Breadcrumbs */}
-          <div className="text-sm text-blue-400 mb-6">Question {">"} How to join 2.....</div>
-        </div>
 
         {/* Question Section */}
         <Card className="bg-gray-800 border-gray-700 mb-8">
