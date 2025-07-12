@@ -8,7 +8,7 @@
 - Email Id 1 : anirudhch0304@gmail.com
 
 - Person 2 : Shravan Chaturvedi
-- Email Id 2 : sckchat1908@gmail.com
+- Email Id 2 : skcchat1908@gmail.com
 
 - Person 3 : Vishesh Raijada
 - Email Id 3 : raizadavish9027@gmail.com
