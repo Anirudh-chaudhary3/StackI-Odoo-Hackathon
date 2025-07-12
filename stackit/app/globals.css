@@ -24,3 +24,49 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Formatted Content Styles */
+.formatted-content {
+  line-height: 1.6;
+}
+
+.formatted-content h1 {
+  @apply text-2xl font-bold mb-4;
+}
+
+.formatted-content h2 {
+  @apply text-xl font-semibold mb-3;
+}
+
+.formatted-content h3 {
+  @apply text-lg font-medium mb-2;
+}
+
+.formatted-content p {
+  @apply mb-2;
+}
+
+.formatted-content ul,
+.formatted-content ol {
+  @apply mb-2 ml-4;
+}
+
+.formatted-content li {
+  @apply mb-1;
+}
+
+.formatted-content blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic text-gray-600 mb-2;
+}
+
+.formatted-content strong {
+  @apply font-bold;
+}
+
+.formatted-content em {
+  @apply italic;
+}
+
+.formatted-content del {
+  @apply line-through;
+}
