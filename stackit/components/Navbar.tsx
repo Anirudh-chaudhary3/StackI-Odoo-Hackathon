@@ -9,6 +9,7 @@ import Image from "next/image";
 const navItems = [
   { label: "Explore", href: "/explore" },
   { label: "About", href: "/about" },
+  { label: "Ask Some", href: "/ask" },
 ];
 
 export default function Navbar() {

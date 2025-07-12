@@ -104,7 +104,7 @@ export default function AnswerCard() {
     const currentQuestion = mockQuestions[currentPage % mockQuestions.length];
 
     return (
-        <div className="min-h-screen  text-white py-8 flex justify-center">
+        <div className="min-h-3  text-white py-8 flex justify-center">
             <main className="w-[90%] min-h-[80vh] space-y-6">
 
 
@@ -116,7 +116,7 @@ export default function AnswerCard() {
 
 
 
-                <Card className="bg-gray-800 border-gray-700 z-10 ">
+                <Card className="bg-[#d7e9ec] text-black border-gray-700 z-10 ">
 
 
 
@@ -125,28 +125,28 @@ export default function AnswerCard() {
                         <h2 className="text-xl font-semibold">{currentQuestion.title}</h2>
                         <div className="flex gap-2">
                             {currentQuestion.tags.map((tag, i) => (
-                                <Badge key={i} className="border-gray-600 text-gray-300">
+                                <Badge key={i} className="border-gray-600 text-gray-800">
                                     {tag}
                                 </Badge>
                             ))}
                         </div>
-                        <p className="text-gray-300">{currentQuestion.description}</p>
-                        <div className="text-sm text-gray-400">Asked by: {currentQuestion.userName}</div>
+                        <p className="text-gray-900">{currentQuestion.description}</p>
+                        <div className="text-sm text-gray-800">Asked by: {currentQuestion.userName}</div>
                     </CardContent>
                 </Card>
 
                 {/* Answer Input */}
-                <Card className="bg-gray-800 border-gray-700">
+                <Card className="bg-[#d7e9ec] text-black border-gray-700">
                     <CardContent className="p-6 space-y-3">
                         <h3 className="text-lg font-medium mb-2">Your Answer</h3>
                         <Textarea
                             placeholder="Write your answer..."
                             value={newAnswer}
                             onChange={(e) => setNewAnswer(e.target.value)}
-                            className="bg-gray-700 border-gray-600 text-white"
+                            className="bg-[#d7e9ec] text-black "
                         />
                         <Button onClick={handleSubmit} className="bg-blue-600 hover:bg-blue-700">
-                            Submit Answer
+                            Submit Answer 
                         </Button>
                     </CardContent>
                 </Card>

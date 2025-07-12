@@ -4,7 +4,9 @@ export default clerkMiddleware();
 
 export const config = {
   matcher: [
-    // Protect all routes except the home page `/` and static assets
-    '/((?!_next|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|webp|css|js|json|ico|woff2?)$|$).*)',
+    // Skip Next.js internals and all static files
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
   ],
 };
