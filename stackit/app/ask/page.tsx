@@ -1,14 +1,15 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import RichTextEditor from "@/components/RichTextEditor";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { X } from "lucide-react"
+import { X, Loader2 } from "lucide-react"
 import Navbar from "@/components/Navbar"
-
+import { toast } from "sonner";
 
 interface QuestionFormData {
   title: string
@@ -16,9 +17,9 @@ interface QuestionFormData {
   tags: string[]
 }
 
-
 export default function Home() {
-
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<QuestionFormData>({
     title: "",
     description: "",
@@ -66,10 +67,50 @@ export default function Home() {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
-    // Handle form submission logic here
+    
+    // Validate form data
+    if (!formData.title.trim()) {
+      toast.error("Please enter a question title");
+      return;
+    }
+    
+    if (!formData.description.trim()) {
+      toast.error("Please enter a question description");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    // Simulate API call delay
+    setTimeout(() => {
+      // Create dummy question data
+      const newQuestion = {
+        _id: Date.now().toString(),
+        title: formData.title.trim(),
+        description: formData.description.trim(),
+        tags: formData.tags,
+        answers: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      
+      toast.success("Question created successfully!");
+      
+      // Reset form
+      setFormData({
+        title: "",
+        description: "",
+        tags: [],
+      });
+      setTagInput("");
+      
+      // Navigate to the main page to see all questions
+      router.push('/');
+      
+      setIsSubmitting(false);
+    }, 1000);
   }
 
   return (
@@ -93,6 +134,7 @@ export default function Home() {
                   onChange={(e) => handleInputChange("title", e.target.value)}
                   className="w-full h-12 border-2 border-gray-300 text-black rounded-lg px-4 text-base"
                   placeholder="Enter your question title..."
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -134,6 +176,7 @@ export default function Home() {
                           onClick={() => handleRemoveTag(tag)}
                           className="ml-1 hover:text-red-600 transition-colors p-0.5 rounded-full hover:bg-red-100"
                           title="Remove tag"
+                          disabled={isSubmitting}
                         >
                           <X className="h-3 w-3" />
                         </button>
@@ -148,6 +191,7 @@ export default function Home() {
                     onKeyDown={handleAddTag}
                     className="border-0 p-0 text-black focus-visible:ring-0 focus-visible:ring-offset-0 text-base placeholder:text-gray-400"
                     placeholder="Type tags separated by space or Enter..."
+                    disabled={isSubmitting}
                   />
                 </div>
                 <p className="text-sm text-gray-500 flex items-center gap-1">
@@ -160,10 +204,18 @@ export default function Home() {
               <div className="flex justify-center pt-4">
                 <Button
                   type="submit"
-                  className="px-8 py-2 bg-white border-2 border-gray-300 text-gray-900 rounded-lg hover:bg-gray-50 font-medium"
+                  className="px-8 py-2 bg-white border-2 border-gray-300 text-gray-900 rounded-lg hover:bg-gray-50 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   variant="outline"
+                  disabled={isSubmitting}
                 >
-                  Submit
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    'Submit'
+                  )}
                 </Button>
               </div>
             </form>
