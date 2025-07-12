@@ -51,20 +51,6 @@ export default function Home() {
     // Handle form submission logic here
   }
 
-  const toolbarButtons = [
-    { icon: Bold, label: "Bold" },
-    { icon: Italic, label: "Italic" },
-    { icon: Strikethrough, label: "Strikethrough" },
-    { icon: List, label: "Bullet List" },
-    { icon: ListOrdered, label: "Numbered List" },
-    { icon: Quote, label: "Quote" },
-    { icon: Smile, label: "Emoji" },
-    { icon: Link, label: "Link" },
-    { icon: ImageIcon, label: "Image" },
-    { icon: AlignLeft, label: "Align Left" },
-    { icon: AlignCenter, label: "Align Center" },
-    { icon: AlignRight, label: "Align Right" },
-  ]
   const [answer, setAnswer] = useState('');
 
   return (
